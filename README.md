@@ -6,7 +6,7 @@ Bienvenue sur **YouPy**, une application web développée en **Python + Streamli
 👉 [https://www.youtube.com/watch?v=GssEs1XfjDs&t=15s]
 
 🔗 **Webapp en ligne** :  
-👉 [https://4zgamnabrq6be5il9jytxl.streamlit.app/](https://4zgamnabrq6be5il9jytxl.streamlit.app/)
+👉 [https://youpyweb.streamlit.app/]
 
 **Youpy en .exe**:
 
