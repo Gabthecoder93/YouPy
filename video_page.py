@@ -74,15 +74,38 @@ def video_page():
             }).execute()
             st.rerun()
 
-    # 👤 Abonnement (non implémenté)
-    if st.button("🔔 S’abonner à " + uploader_username, use_container_width=True):
-        st.success("Fonction à venir")
+    # 👤 Abonnement
+    # Vérifier si l'utilisateur actuel est déjà abonné à l'uploader
+    current_user_id = user.id
+    if current_user_id and current_user_id != uploader_id: # Empêche de s'abonner à soi-même
+        already_subscribed = supabase.table("subscriptions") \
+            .select("*") \
+            .eq("subscriber_id", current_user_id) \
+            .eq("subscribed_to_id", uploader_id).execute().data
 
-    # Modified "Voir la chaîne" button
+        if already_subscribed:
+            if st.button("❌ Se désabonner de " + uploader_username, use_container_width=True):
+                supabase.table("subscriptions") \
+                    .delete().eq("subscriber_id", current_user_id) \
+                    .eq("subscribed_to_id", uploader_id).execute()
+                st.success("Désabonné avec succès.")
+                st.rerun()
+        else:
+            if st.button("🔔 S’abonner à " + uploader_username, use_container_width=True):
+                supabase.table("subscriptions").insert({
+                    "subscriber_id": current_user_id,
+                    "subscribed_to_id": uploader_id
+                }).execute()
+                st.success("Abonné avec succès.")
+                st.rerun()
+    elif current_user_id == uploader_id:
+        st.info("C'est votre propre chaîne.")
+
+
     if st.button("📺 Voir la chaîne", use_container_width=True):
         st.query_params.clear()
         st.query_params["page"] = "profile"
-        st.query_params["user_id"] = uploader_id  # Pass the uploader's ID
+        st.query_params["user_id"] = uploader_id
         st.rerun()
 
     st.markdown("---")
