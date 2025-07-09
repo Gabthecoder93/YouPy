@@ -114,7 +114,7 @@ def video_page():
                 "comment_text": new_comment,
             }).execute()
             st.success("Commentaire publié avec succès.")
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.warning("Le commentaire ne peut pas être vide.")
 
