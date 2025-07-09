@@ -78,8 +78,12 @@ def video_page():
     if st.button("🔔 S’abonner à " + uploader_username, use_container_width=True):
         st.success("Fonction à venir")
 
+    # Modified "Voir la chaîne" button
     if st.button("📺 Voir la chaîne", use_container_width=True):
-        st.info("Page chaîne à venir")
+        st.query_params.clear()
+        st.query_params["page"] = "profile"
+        st.query_params["user_id"] = uploader_id  # Pass the uploader's ID
+        st.rerun()
 
     st.markdown("---")
 
@@ -114,7 +118,7 @@ def video_page():
                 "comment_text": new_comment,
             }).execute()
             st.success("Commentaire publié avec succès.")
-            st.rerun()
+            st.experimental_rerun()
         else:
             st.warning("Le commentaire ne peut pas être vide.")
 
@@ -131,4 +135,3 @@ def video_page():
             "created_at": datetime.utcnow().isoformat()
         }).execute()
         st.success("Vidéo signalée.")
-
